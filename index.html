@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+        <link rel="stylesheet" href="index.css">
+		<title>Calculatrice</title>
+	</head>
+	<body>
+		<table>
+			<thead>
+				<tr>
+					<td colspan="3">
+						<input type="text" value="" id="formule" />
+					</td>
+					<td>
+						<div id="result"></div>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="3">
+						<button onclick="erase()">Effacer Tout</button>
+					</td>
+					<td>
+						<button onclick="click_touch('/')">/</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button onclick="click_touch(7)">7</button> 
+					</td>
+					<td>
+						<button onclick="click_touch(8)">8</button> 
+					</td>
+					<td>
+						<button onclick="click_touch(9)">9</button> 
+					</td>
+					<td>
+						<button onclick="click_touch('*')">*</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button onclick="click_touch(4)">4</button>
+					</td>
+					<td>
+						<button onclick="click_touch(5)">5</button>
+					</td>
+					<td>
+						<button onclick="click_touch(6)">6</button> 
+					</td>
+					<td>
+						<button onclick="click_touch('-')">-</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button onclick="click_touch(1)">1</button>
+					</td>
+					<td>
+						<button onclick="click_touch(2)">2</button> 
+					</td>
+					<td>
+						<button onclick="click_touch(3)">3</button> 
+					</td>
+					<td>
+						<button onclick="click_touch('+')">+</button>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<button onclick="click_touch(0)">0</button>
+					</td>
+					<td>
+						<button id="egal" onclick="egal()">=</button> 
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<script>
+			let operators= ['+','-','*','/'];
+			let formule_let = document.getElementById("formule");
+			let result_let = document.getElementById("result");
+
+			
+			function click_touch(value){		
+				// si on a déjà fait un calcul précédemment
+				if (result_let.textContent.length > 0)
+				{
+					// on vide la formule
+					formule_let.value = "";
+
+					// si on a cliqué sur un operateur
+					if(operators.indexOf(value) != -1){
+						// On concate le résultat précédent
+						formule_let.value = result_let.textContent;
+					}
+					
+					// On vide le résultat
+					result_let.textContent = "";
+				}
+
+				// On concate le chiffre/opérateur
+				formule_let.value += value; 
+			}
+		
+			function egal(){
+				let chiffre = formule_let.value;
+				// Si la formule se termine par un opérateur
+				if(operators.indexOf(chiffre.charAt(chiffre.length-1 )) !=-1 ){
+					//Calculer le résultats avec le résultats par le dernier opérateur
+					formule_let.value = formule_let.value + eval(chiffre.substring(0,chiffre.length-1));
+				}
+				result_let.textContent = eval(formule_let.value);
+			}
+			
+			function erase(){
+				formule_let.value = "";
+				result_let.textContent = "";
+			}
+		</script>
+	</body>
+</html>
